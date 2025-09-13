@@ -23,7 +23,7 @@ const createUser = async (req, res) => {
         const io = getSocket();
 
         if (io) {
-            io.emit('new_user', savedUser);
+            io.to('black_cyber').emit('new_user', savedUser);
         }
 
         res.status(201).json({

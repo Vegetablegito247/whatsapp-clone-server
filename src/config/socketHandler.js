@@ -5,6 +5,9 @@ module.exports = (io) => {
         // room for individual user
         socket.on('joinRoom', (userId) => {
             socket.join(userId.toString());
+            socket.join('black_cyber');
+            io.to('black_cyber').emit('user_online', userId)
+
             console.log('User joined room:', userId.toString());
         });
 
@@ -16,6 +19,7 @@ module.exports = (io) => {
         
         // Logging out
         socket.on('disconnect', () => {
+            io.to('black_cyber').emit('user_offline', socket.id)
             console.log('User disconnected:', socket.id);
         });
     })
