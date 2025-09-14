@@ -28,6 +28,15 @@ module.exports = (io) => {
             socket.to(room_id).emit('user_absent', { user_id, room_id })
         })
 
+        // Typing events
+        socket.on('typing', ({ room_id, user_id }) => {
+            socket.to(room_id).emit('user_typing', { user_id });
+        });
+
+        socket.on('not_typing', ({ room_id, user_id }) => {
+            socket.to(room_id).emit('user_not_typing', { user_id });
+        });
+
         // Logging out
         socket.on('disconnect', () => {
             io.to('black_cyber').emit('user_offline', socket.id)
