@@ -18,6 +18,9 @@ module.exports = (io) => {
 
             // Notify others in the room
             socket.to(room_id).emit('user_present', { user_id, room_id })
+
+            // Also notify the sender (for testing/self-indicator)
+            socket.emit('user_present', { user_id, room_id });
         })
 
         socket.on('leave_room', (room_id, user_id) => {
