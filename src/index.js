@@ -7,6 +7,7 @@ const getChat = require('./routes/chat/getChat');
 const editChat = require('./routes/chat/editChat');
 const delChat = require('./routes/chat/delChat');
 const createUser = require('./routes/users/createUser');
+const fetchUsers = require('./routes/users/fetchUsers');
 
 const app = express();
 
@@ -22,5 +23,6 @@ app.delete('/delChat/:id', delChat)
 
 // User api
 app.post('/createUser', createUser)
+app.get('/fetchUsers', fetchUsers)
 
 connection({ app, port: process.env.PORT || 8000 });
