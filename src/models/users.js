@@ -19,11 +19,11 @@ const usersSchema = new mongoose.Schema({
     },
     profilePicture: {
         type: String,
-        default: 'https://res.cloudinary.com/djwv8n9zq/image/upload/v1674953253/ProfilePic/ProfilePic_default.jpg'
+        default: 'https://www.dinneratthezoo.com/wp-content/uploads/2018/06/shrimp-alfredo-6.jpg'
     },
     coverPicture: {
         type: String,
-        default: 'https://res.cloudinary.com/djwv8n9zq/image/upload/v1674953253/ProfilePic/ProfilePic_default.jpg'
+        default: 'https://www.dinneratthezoo.com/wp-content/uploads/2018/06/shrimp-alfredo-6.jpg'
     },
     bio: {
         type: String,
