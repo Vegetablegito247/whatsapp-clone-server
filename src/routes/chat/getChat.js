@@ -16,18 +16,9 @@ const getChat = async (req, res) => {
             return res.status(404).json({ message: 'No chat found between the specified users' });
         }
 
-        // Emit the chat history to both users if they are connected
-        const room = [senderId, receiverId].sort().join('_');
-
-        const io = getSocket();
-        if (io) {
-            io.to(room).emit('chatHistory', chat);
-        }
-
         res.status(200).json({
             message: 'Chat retrieved successfully',
             data: chat,
-            room
         });
     } catch (error) {
         console.error(error);

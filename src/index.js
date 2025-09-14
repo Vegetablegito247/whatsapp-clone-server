@@ -17,7 +17,7 @@ app.use(morgan('dev'));
 
 // Message api
 app.post('/sendChat', sendChat)
-app.get('/getChats', getChat)
+app.post('/getChats', getChat)
 app.put('/editChat/:id', editChat)
 app.delete('/delChat/:id', delChat)
 
