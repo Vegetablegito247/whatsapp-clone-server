@@ -12,8 +12,8 @@ const getChat = async (req, res) => {
             ],
         }).populate('sender').populate('receiver');
 
-        if (!chat) {
-            return res.status(404).json({ message: 'No chat found between the specified users' });
+        if (!chat || chat.length === 0) {
+            return res.status(200).json({ message: 'No messages between these users', data: [] });
         }
 
         res.status(200).json({
