@@ -1,11 +1,21 @@
+const User = require('../models/users')
+
 module.exports = (io) => {
     io.on('connection', (socket) => {
         console.log('User connected:', socket.id);
 
         // room for individual user
-        socket.on('joinRoom', (userId) => {
+        socket.on('joinRoom', async (userId) => {
             socket.join(userId.toString());
             socket.join('black_cyber');
+
+            // ✅ Update user online status in DB
+            await User.findByIdAndUpdate(
+                userId,
+                { isOnline: true, lastSeen: new Date() },
+                { new: true }
+            );
+
             io.to('black_cyber').emit('user_online', userId)
 
             console.log('User joined room:', userId.toString());
@@ -38,8 +48,19 @@ module.exports = (io) => {
         });
 
         // Logging out
-        socket.on('disconnect', () => {
+        socket.on('disconnect', async () => {
             io.to('black_cyber').emit('user_offline', socket.id)
+
+            // ⚠️ You’ll need to know which user this socket belonged to.
+            // Best practice: save userId on socket when they join.
+            if (socket.userId) {
+                await User.findByIdAndUpdate(
+                    socket.userId,
+                    { isOnline: false, lastSeen: new Date() },
+                    { new: true }
+                );
+                io.to("black_cyber").emit("user_offline", { userId: socket.userId });
+            }
             console.log('User disconnected:', socket.id);
         });
     })
