@@ -9,14 +9,14 @@ module.exports = (io) => {
             socket.join(userId.toString());
             socket.join('black_cyber');
 
+            io.to('black_cyber').emit('user_online', userId)
+
             // ✅ Update user online status in DB
             await User.findByIdAndUpdate(
                 userId,
                 { isOnline: true, lastSeen: new Date() },
                 { new: true }
             );
-
-            io.to('black_cyber').emit('user_online', userId)
 
             console.log('User joined room:', userId.toString());
         });
@@ -49,7 +49,6 @@ module.exports = (io) => {
 
         // Logging out
         socket.on('disconnect', async () => {
-            io.to('black_cyber').emit('user_offline', socket.id)
 
             // ⚠️ You’ll need to know which user this socket belonged to.
             // Best practice: save userId on socket when they join.
