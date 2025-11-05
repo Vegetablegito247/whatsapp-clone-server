@@ -6,6 +6,8 @@ module.exports = (io) => {
 
         // room for individual user
         socket.on('joinRoom', async (userId) => {
+            socket.userId = userId;
+
             socket.join(userId.toString());
             socket.join('black_cyber');
 
@@ -22,7 +24,7 @@ module.exports = (io) => {
         });
 
         // room for chat
-        socket.on('chat_room', (room_id, user_id) => {
+        socket.on('join_chat_room', ({ room_id, user_id }) => {
             socket.join(room_id);
             console.log('User joined chat room:', room_id);
 
@@ -30,7 +32,7 @@ module.exports = (io) => {
             socket.to(room_id).emit('user_present', { user_id, room_id })
         })
 
-        socket.on('leave_room', (room_id, user_id) => {
+        socket.on('leave_chat_room', ({ room_id, user_id }) => {
             socket.leave(room_id);
             console.log(`User ${user_id} left room ${room_id}`);
 
